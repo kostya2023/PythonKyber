@@ -1,0 +1,37 @@
+[build-system]
+requires = ["maturin>=0.12"]
+build-backend = "maturin"
+
+[tool.maturin]
+bindings = "pyo3"
+name = "PythonKyber"
+package-version = "1.0.0"
+include = ["Cargo.toml", "LICENSE", "README.md", "src/**/*", "pyproject.toml", "PythonKyber.pyi"]
+exclude = ["tester.py", "target/**/*", "venv/**/*", "win_venv/**/*"]
+
+[tool.maturin.metadata]
+description = "Python bindings for Kyber post-quantum cryptography using pqcrypto"
+authors = ["Konstantin Gorshkov <kostya_gorshkov_06@vk.com>", "Rust pqcrypto Developers"]
+license = "MIT"
+repository = "https://github.com/kostya2023/PythonKyber"
+keywords = ["crypto", "kyber", "pqcrypto", "post-quantum", "python"]
+categories = ["Cryptography", "API Bindings"]
+readme = "README.md"
+long-description = "A Python library for the Kyber post-quantum encryption algorithm, built on top of pqcrypto."
+
+[tool.maturin.classifiers]
+classifier = [
+    "Programming Language :: Python",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Security :: Cryptography",
+]
+[tool.maturin.requires-python]
+version = ">=3.8"
+
+[tool.maturin.dependencies]
+pyo3 = { version = "0.18", features = ["extension-module"] }
+pqcrypto-kyber = "0.7"
+pqcrypto-traits = "0.3"
+
+

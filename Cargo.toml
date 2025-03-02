@@ -1,0 +1,20 @@
+[package]
+name = "PythonKyber"
+version = "1.0.0"
+edition = "2021"
+authors = ["Konstantin Gorshkov <kostya_gorshkov_06@vk.com>", "Rust pqcrypto Developers"]
+license = "MIT"
+description = "Python bindings for Kyber post-quantum cryptography using pqcrypto"
+repository = "https://github.com/kostya2023/PythonKyber"
+keywords = ["crypto", "kyber", "pqcrypto", "post-quantum", "python"]
+categories = ["cryptography", "api-bindings"]
+readme = "README.md"
+
+[lib]
+name = "PythonKyber"
+crate-type = ["cdylib"]  # Обязательно для биндингов через maturin
+
+[dependencies]
+pyo3 = { version = "0.18", features = ["extension-module"] }
+pqcrypto-kyber = "0.7"  
+pqcrypto-traits = "0.3"
