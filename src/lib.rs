@@ -1,4 +1,5 @@
 use pyo3::prelude::*;
+use pyo3::types::PyBytes;
 use pqcrypto_kyber::{
     kyber512::{keypair as keypair512, encapsulate as encapsulate512, decapsulate as decapsulate512},
     kyber768::{keypair as keypair768, encapsulate as encapsulate768, decapsulate as decapsulate768},
@@ -15,23 +16,29 @@ fn to_py_result<T, E: ToString>(result: Result<T, E>) -> PyResult<T> {
 #[pymodule]
 fn Kyber512(_py: Python, m: &PyModule) -> PyResult<()> {
     #[pyfunction]
-    fn generate_keypair() -> PyResult<(Vec<u8>, Vec<u8>)> {
+    fn generate_keypair(py: Python) -> PyResult<(Py<PyBytes>, Py<PyBytes>)> {
         let (pk, sk) = keypair512();
-        Ok((pk.as_bytes().to_vec(), sk.as_bytes().to_vec()))
+        Ok((
+            PyBytes::new(py, pk.as_bytes()).into(),
+            PyBytes::new(py, sk.as_bytes()).into(),
+        ))
     }
 
     #[pyfunction]
-    fn encapsulate(public_key: Vec<u8>) -> PyResult<(Vec<u8>, Vec<u8>)> {
-        let pk = to_py_result(PublicKey::from_bytes(&public_key))?;
+    fn encapsulate(py: Python, public_key: &[u8]) -> PyResult<(Py<PyBytes>, Py<PyBytes>)> {
+        let pk = to_py_result(PublicKey::from_bytes(public_key))?;
         let (ct, ss) = encapsulate512(&pk);
-        Ok((ct.as_bytes().to_vec(), ss.as_bytes().to_vec()))
+        Ok((
+            PyBytes::new(py, ct.as_bytes()).into(),
+            PyBytes::new(py, ss.as_bytes()).into(),
+        ))
     }
 
     #[pyfunction]
-    fn decapsulate(secret_key: Vec<u8>, ciphertext: Vec<u8>) -> PyResult<Vec<u8>> {
-        let sk = to_py_result(SecretKey::from_bytes(&secret_key))?;
-        let ct = to_py_result(Ciphertext::from_bytes(&ciphertext))?;
-        Ok(decapsulate512(&ct, &sk).as_bytes().to_vec())
+    fn decapsulate(py: Python, secret_key: &[u8], ciphertext: &[u8]) -> PyResult<Py<PyBytes>> {
+        let sk = to_py_result(SecretKey::from_bytes(secret_key))?;
+        let ct = to_py_result(Ciphertext::from_bytes(ciphertext))?;
+        Ok(PyBytes::new(py, decapsulate512(&ct, &sk).as_bytes()).into())
     }
 
     m.add_function(wrap_pyfunction!(generate_keypair, m)?)?;
@@ -44,23 +51,29 @@ fn Kyber512(_py: Python, m: &PyModule) -> PyResult<()> {
 #[pymodule]
 fn Kyber768(_py: Python, m: &PyModule) -> PyResult<()> {
     #[pyfunction]
-    fn generate_keypair() -> PyResult<(Vec<u8>, Vec<u8>)> {
+    fn generate_keypair(py: Python) -> PyResult<(Py<PyBytes>, Py<PyBytes>)> {
         let (pk, sk) = keypair768();
-        Ok((pk.as_bytes().to_vec(), sk.as_bytes().to_vec()))
+        Ok((
+            PyBytes::new(py, pk.as_bytes()).into(),
+            PyBytes::new(py, sk.as_bytes()).into(),
+        ))
     }
 
     #[pyfunction]
-    fn encapsulate(public_key: Vec<u8>) -> PyResult<(Vec<u8>, Vec<u8>)> {
-        let pk = to_py_result(PublicKey::from_bytes(&public_key))?;
+    fn encapsulate(py: Python, public_key: &[u8]) -> PyResult<(Py<PyBytes>, Py<PyBytes>)> {
+        let pk = to_py_result(PublicKey::from_bytes(public_key))?;
         let (ct, ss) = encapsulate768(&pk);
-        Ok((ct.as_bytes().to_vec(), ss.as_bytes().to_vec()))
+        Ok((
+            PyBytes::new(py, ct.as_bytes()).into(),
+            PyBytes::new(py, ss.as_bytes()).into(),
+        ))
     }
 
     #[pyfunction]
-    fn decapsulate(secret_key: Vec<u8>, ciphertext: Vec<u8>) -> PyResult<Vec<u8>> {
-        let sk = to_py_result(SecretKey::from_bytes(&secret_key))?;
-        let ct = to_py_result(Ciphertext::from_bytes(&ciphertext))?;
-        Ok(decapsulate768(&ct, &sk).as_bytes().to_vec())
+    fn decapsulate(py: Python, secret_key: &[u8], ciphertext: &[u8]) -> PyResult<Py<PyBytes>> {
+        let sk = to_py_result(SecretKey::from_bytes(secret_key))?;
+        let ct = to_py_result(Ciphertext::from_bytes(ciphertext))?;
+        Ok(PyBytes::new(py, decapsulate768(&ct, &sk).as_bytes()).into())
     }
 
     m.add_function(wrap_pyfunction!(generate_keypair, m)?)?;
@@ -73,23 +86,29 @@ fn Kyber768(_py: Python, m: &PyModule) -> PyResult<()> {
 #[pymodule]
 fn Kyber1024(_py: Python, m: &PyModule) -> PyResult<()> {
     #[pyfunction]
-    fn generate_keypair() -> PyResult<(Vec<u8>, Vec<u8>)> {
+    fn generate_keypair(py: Python) -> PyResult<(Py<PyBytes>, Py<PyBytes>)> {
         let (pk, sk) = keypair1024();
-        Ok((pk.as_bytes().to_vec(), sk.as_bytes().to_vec()))
+        Ok((
+            PyBytes::new(py, pk.as_bytes()).into(),
+            PyBytes::new(py, sk.as_bytes()).into(),
+        ))
     }
 
     #[pyfunction]
-    fn encapsulate(public_key: Vec<u8>) -> PyResult<(Vec<u8>, Vec<u8>)> {
-        let pk = to_py_result(PublicKey::from_bytes(&public_key))?;
+    fn encapsulate(py: Python, public_key: &[u8]) -> PyResult<(Py<PyBytes>, Py<PyBytes>)> {
+        let pk = to_py_result(PublicKey::from_bytes(public_key))?;
         let (ct, ss) = encapsulate1024(&pk);
-        Ok((ct.as_bytes().to_vec(), ss.as_bytes().to_vec()))
+        Ok((
+            PyBytes::new(py, ct.as_bytes()).into(),
+            PyBytes::new(py, ss.as_bytes()).into(),
+        ))
     }
 
     #[pyfunction]
-    fn decapsulate(secret_key: Vec<u8>, ciphertext: Vec<u8>) -> PyResult<Vec<u8>> {
-        let sk = to_py_result(SecretKey::from_bytes(&secret_key))?;
-        let ct = to_py_result(Ciphertext::from_bytes(&ciphertext))?;
-        Ok(decapsulate1024(&ct, &sk).as_bytes().to_vec())
+    fn decapsulate(py: Python, secret_key: &[u8], ciphertext: &[u8]) -> PyResult<Py<PyBytes>> {
+        let sk = to_py_result(SecretKey::from_bytes(secret_key))?;
+        let ct = to_py_result(Ciphertext::from_bytes(ciphertext))?;
+        Ok(PyBytes::new(py, decapsulate1024(&ct, &sk).as_bytes()).into())
     }
 
     m.add_function(wrap_pyfunction!(generate_keypair, m)?)?;

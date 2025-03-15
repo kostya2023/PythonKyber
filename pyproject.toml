@@ -5,7 +5,7 @@ build-backend = "maturin"
 [tool.maturin]
 bindings = "pyo3"
 name = "PythonKyber"
-package-version = "1.0.0"
+package-version = "1.0.1"
 include = ["Cargo.toml", "LICENSE", "README.md", "src/**/*", "pyproject.toml", "PythonKyber.pyi"]
 exclude = ["tester.py", "target/**/*", "venv/**/*", "win_venv/**/*"]
 
