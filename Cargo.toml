@@ -1,6 +1,6 @@
 [package]
 name = "PythonKyber"
-version = "1.0.1"
+version = "1.0.2"
 edition = "2021"
 authors = ["Konstantin Gorshkov <kostya_gorshkov_06@vk.com>", "Rust pqcrypto Developers"]
 license = "MIT"
@@ -16,5 +16,5 @@ crate-type = ["cdylib"]  # Обязательно для биндингов че
 
 [dependencies]
 pyo3 = { version = "0.18", features = ["extension-module"] }
-pqcrypto-kyber = "0.7"  
+pqcrypto-kyber = { version = "0.8", features = ["avx2", "neon"] }
 pqcrypto-traits = "0.3"

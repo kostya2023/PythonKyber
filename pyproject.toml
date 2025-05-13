@@ -1,13 +1,11 @@
 [build-system]
-requires = ["maturin>=0.12"]
+requires = ["maturin>=1.0"]
 build-backend = "maturin"
 
 [tool.maturin]
 bindings = "pyo3"
 name = "PythonKyber"
-package-version = "1.0.1"
-include = ["Cargo.toml", "LICENSE", "README.md", "src/**/*", "pyproject.toml", "PythonKyber.pyi"]
-exclude = ["tester.py", "target/**/*", "venv/**/*", "win_venv/**/*"]
+package-version = "1.0.2"
 
 [tool.maturin.metadata]
 description = "Python bindings for Kyber post-quantum cryptography using pqcrypto"
@@ -28,10 +26,5 @@ classifier = [
 ]
 [tool.maturin.requires-python]
 version = ">=3.8"
-
-[tool.maturin.dependencies]
-pyo3 = { version = "0.18", features = ["extension-module"] }
-pqcrypto-kyber = "0.7"
-pqcrypto-traits = "0.3"
 
 
